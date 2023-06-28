@@ -562,7 +562,6 @@ begin
 end;
 
 
-
 procedure TfmMain.addOther(psFileName: String);
 var loStream : TMemoryStream;
     loPNG : TPNGImage;
@@ -577,7 +576,7 @@ begin
   liMax := 0;
   // *** Читаем данные вкладки
   ReadTabParams(liCount, liMax);
-  if saveNewCommand(loStream, liMax, psExeName, ciNonExecutable) then
+  if saveNewCommand(loStream, liMax, psFileName, ciNonExecutable) then
   begin
 
 	   addToPanel(liCount, liMax);
@@ -817,5 +816,31 @@ begin
 end;
 
 
+function easyExec(psCommand, psArgs, psFolder : String) : Boolean;
+var liStatus : Integer;
+    lpcArgs,
+    lpcFolder : PChar;
+begin
+  lpcFolder:=Nil
+  lpcArgs:=Nil
+
+  if not IsEmpty(psFolder) then
+  begin
+
+    lpcFolder:=PChar(psFolder);
+	end;
+
+  if not IsEmpty(psArgs) then
+  begin
+
+    lpcArgs:=PChar(psArgs);
+	end;
+  EasyExec:= ShellExecute(HInstance,
+                          PChar('open'),
+                          PChar(psCommand),
+                          lpcArgs,
+                          lpcFolder,
+                          SW_SHOWDEFAULT)<=32;
+end;
 end.
 
