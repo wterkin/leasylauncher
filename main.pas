@@ -39,18 +39,18 @@ type
 
     const
       csDatabaseFileName = 'leasylauncher.db';
-      csIconFolder       = 'images\';
+      //csIconFolder       = 'images\';
       ciHeight           = 36;
       ciWidth            = 35;
       ciSpaceLength      = 2;
-      csPNGExtension     = '.png';
+      //csPNGExtension     = '.png';
 
     procedure createDatabaseIfNeeded();
     procedure addLink(psFileName : String);
     procedure addExe(psExeName : String);
     procedure addOther(psFileName : String);
     function  extractExeFileSpecFromLink(psLinkName : String) : String;
-    function  extractIconFromExe(psExeName, psIconName: String) : TPNGImage;
+    function  extractIconFromExe(psExeName: String) : TPNGImage;
     //procedure extractAndSaveIconFromExeFile(psExeName, psIconName : String);
     procedure OnClick(Sender : TObject);
     procedure loadTabs();
@@ -81,8 +81,16 @@ implementation
 
 {$R *.lfm}
 
-{ TO DO : 1. Как конвертировать ICO в PNG? }
-{ TO DO : 2. Как вытащить иконку из Exe-файла? }
+{
+ * Добавить Exe-файл
+ * Добавить произвольный файл
+ * Удалить кнопку
+ * Поменять кнопки местами
+ * Добавить вкладку
+ * Переименовать вкладку
+ * Удалить вкладку
+ * Поменять вкладки местами
+}
 
 { TfmMain }
 
@@ -395,35 +403,35 @@ end;
 
 
 procedure TfmMain.addExe(psExeName: String);
-var lsIconName : String;
-    lsIconSpec : String;
+var // lsIconName : String;
+    // lsIconSpec : String;
     lsSQL      : String;
-    liMin,
+    //liMin,
     liMax,
     liCount    : Integer;
     loPNG      : TPNGImage;
     loStream   : TStream;
 begin
 
-   lsIconName := ExtractFileNameWithoutExt(ExtractFileName(psExeName)) + csPNGExtension;
-   lsIconSpec := getAppFolder() + csIconFolder + lsIconName;
-   loPNG := extractIconFromExe(psExeName, lsIconSpec);
+   // *** Вытащим из Exe-файла иконку и сохраним в поток
+   //lsIconName := ExtractFileNameWithoutExt(ExtractFileName(psExeName)) + csPNGExtension;
+   //lsIconSpec := getAppFolder() + csIconFolder + lsIconName;
+   loPNG := extractIconFromExe(psExeName); //, lsIconSpec
    loStream := TMemoryStream.Create();
-   //loStream.;
    loPNG.SaveToStream(loStream);
    loStream.Seek(0, soFromBeginning);
    // *** Получим количество иконок на странице
-   lsSQL :=
-     'select min(fposition) as amin,' + LF +
-     '       max(fposition) as amax,' + LF +
-     '       count(fposition) as acount' + LF +
-     '  from (' + LF +
-     '    select fposition'+ LF +
-     '      from tblbuttons'+ LF +
-     '      where (ftabid=:ptabid) and (fstatus>0)' + LF +
-     '  ) subquery';
    try
 
+     lsSQL :=
+       'select min(fposition) as amin,' + LF +
+       '       max(fposition) as amax,' + LF +
+       '       count(fposition) as acount' + LF +
+       '  from (' + LF +
+       '    select fposition'+ LF +
+       '      from tblbuttons'+ LF +
+       '      where (ftabid=:ptabid) and (fstatus>0)' + LF +
+       '  ) subquery';
      initializeQuery(qrMain,lsSQL);
      qrMain.ParamByName('ptabid').AsInteger := NoteBook.ActivePage.Tag;
      qrMain.Open;
@@ -432,13 +440,13 @@ begin
         (qrMain.FieldByName('acount').AsInteger > 0) then
      begin
 
-       liMin := qrMain.FieldByName('amin').AsInteger;
+       //liMin := qrMain.FieldByName('amin').AsInteger;
        liMax := qrMain.FieldByName('amax').AsInteger;
        liCount := qrMain.FieldByName('acount').AsInteger;
      end else
      begin
 
-       liMin := 1;
+       //liMin := 1;
        liMax := 1;
        liCount := 0;
      end;
@@ -459,10 +467,10 @@ begin
      qrMain.ParamByName('pname').AsString := ExtractFileNameWithoutExt(ExtractFileName(psExeName));
      qrMain.ParamByName('pfullpath').AsString := psExeName;
      qrMain.ParamByName('pargument').AsString := '';
-     //qrMain.ParamByName('picon').AsString := lsIconName;
      qrMain.ParamByName('picon').LoadFromStream(loStream, ftBlob);
      qrMain.ExecSQL;
      trsMain.Commit;
+
      lsSQL:=
        'select   "id" as abuttonid'#13+
        '       , "fname" as abuttonname'#13+
@@ -538,7 +546,7 @@ begin
 end;
 *)
 
-function TfmMain.extractIconFromExe(psExeName, psIconName: String) : TPNGImage;
+function TfmMain.extractIconFromExe(psExeName : String) : TPNGImage;
 var loIcon        : TIcon;
     lhIcon        : HIcon;
     loPNG         : TPNGImage;
