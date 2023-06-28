@@ -55,6 +55,8 @@ type
     procedure loadTabs();
     procedure buttonHandler(Sender: TObject);
     procedure addButton(piLeft : Integer);
+    procedure ReadTabParams(var liCount: Integer; var liMax: Integer);
+
   public
 
   end;
@@ -104,8 +106,43 @@ Copyright:   Взято из MSDN
 Дата:        20 мая 2002 г.
 ***************************************************** }
 
-type
-  TIconType = (itSmall, itLarge);
+//type
+//  TIconType = (itSmall, itLarge);
+
+{ TfmMain }
+procedure TfmMain.ReadTabParams(var liCount: Integer; var liMax: Integer);
+const csSql = 'select max(fposition) as amax,'#13 +
+				      '       count(fposition) as acount'#13 +
+				      '  from ('#13+
+				      '    select fposition'#13+
+				      '      from tblbuttons'#13+
+				      '      where (ftabid=:ptabid) and (fstatus>0)'#13+
+				      '  ) subquery';
+begin
+  // *** Получим количество иконок на странице
+  try
+
+    initializeQuery(qrMain,csSQL);
+    qrMain.ParamByName('ptabid').AsInteger := NoteBook.ActivePage.Tag;
+    qrMain.Open;
+    qrMain.First;
+    if (not qrMain.FieldByName('acount').IsNull) and
+       (qrMain.FieldByName('acount').AsInteger > 0) then
+    begin
+
+      liMax := qrMain.FieldByName('amax').AsInteger;
+      liCount := qrMain.FieldByName('acount').AsInteger;
+    end else
+    begin
+
+      liMax := 1;
+      liCount := 0;
+    end;
+	finally
+    qrMain.Close;
+	end;
+end;
+
 
 function TfmMain.GetAssociatedIcon(const psFileName: string): TPNGImage;
 var loInfoFile : SHFILEINFO;
@@ -130,7 +167,6 @@ begin
   Result := loPNG;
 end;
 
-{ TfmMain }
 
 procedure TfmMain.FormDropFiles(Sender: TObject; const FileNames : array of String);
 var lsFileName  : String;
@@ -453,39 +489,12 @@ begin
    loStream := TMemoryStream.Create();
    loPNG.SaveToStream(loStream);
    loStream.Seek(0, soFromBeginning);
-   // *** Получим количество иконок на странице
+   liCount := 0;
+   liMax := 0;
+   // *** Читаем данные вкладки
+   ReadTabParams(liCount, liMax);
    try
-
-     lsSQL :=
-       'select min(fposition) as amin,' + LF +
-       '       max(fposition) as amax,' + LF +
-       '       count(fposition) as acount' + LF +
-       '  from (' + LF +
-       '    select fposition'+ LF +
-       '      from tblbuttons'+ LF +
-       '      where (ftabid=:ptabid) and (fstatus>0)' + LF +
-       '  ) subquery';
-     initializeQuery(qrMain,lsSQL);
-     qrMain.ParamByName('ptabid').AsInteger := NoteBook.ActivePage.Tag;
-     qrMain.Open;
-     qrMain.First;
-     if (not qrMain.FieldByName('acount').IsNull) and
-        (qrMain.FieldByName('acount').AsInteger > 0) then
-     begin
-
-       //liMin := qrMain.FieldByName('amin').AsInteger;
-       liMax := qrMain.FieldByName('amax').AsInteger;
-       liCount := qrMain.FieldByName('acount').AsInteger;
-     end else
-     begin
-
-       //liMin := 1;
-       liMax := 1;
-       liCount := 0;
-     end;
-     qrMain.Close;
-
-     // *** Добавим новую иконку.
+   // *** Добавим новую иконку.
      lsSQL:=
        'insert into tblbuttons (' + LF +
        '    ftabid, fposition, fname, ffullpath' + LF +
@@ -532,9 +541,18 @@ end;
 
 
 procedure TfmMain.addOther(psFileName: String);
+var loStream : TMemoryStream;
+    loPNG : TPNGImage;
 begin
+  loPNG := GetAssociatedIcon(psFileName);
+  loStream := TMemoryStream.Create();
+  loPNG.SaveToStream(loStream);
+  loStream.Seek(0, soFromBeginning);
+  liCount := 0;
+  liMax := 0;
+  // *** Читаем данные вкладки
+  ReadTabParams(liCount, liMax);
 
-  //
 end;
 
 
@@ -556,28 +574,6 @@ begin
   Result := lcBuff;
 end;
 
-(*
-procedure TfmMain.extractAndSaveIconFromExeFile(psExeName, psIconName: String);
-var loIcon        : TIcon;
-    lhIcon        : HIcon;
-    loPNG         : TPngImage;
-begin
-
-  lhIcon := ExtractIconA(HINSTANCE, @psExeName[1],0);
-  loIcon := TIcon.Create;
-  try
-
-    loIcon.Handle := lhIcon;
-    loPNG := TPngImage.Create();
-    loPNG.Assign(loIcon);
-    loPNG.SaveToFile(psIconName);
-  finally
-    DestroyIcon(lhIcon);
-    loIcon.Free;
-    loPNG.Free;
-  end;
-end;
-*)
 
 function TfmMain.extractIconFromExe(psExeName : String) : TPNGImage;
 var loIcon        : TIcon;
@@ -791,44 +787,6 @@ begin
   end;
 end;
 
-(*
-procedure TfmMain.GetIconFromLnk(psFileName : String, psIconName: String);
-var Icon : TIcon;
-    ListItem : TListItem;
-    shInfo : TSHFileInfo;
-    sFileType : string;
- begin
-   { initialise ListView and Icon }
-   Icon := TIcon.Create;
 
-   try
-
-     { get details about file type from SHGetFileInfo }
-     SHGetFileInfo(PChar(psFileName), 0, shInfo,
-       SizeOf(shInfo), SHGFI_TYPENAME);
-     sFileType := shInfo.szTypeName;
-     if shInfo.szTypeName = 'Shortcut' then
-     begin
-       SHGetFileInfo(PChar(psFileName), 0, shInfo, SizeOf(shInfo),
-         SHGFI_LINKOVERLAY or SHGFI_ICON or
-         SHGFI_SMALLICON or SHGFI_SYSICONINDEX)
-     end else
-     begin
-
-       { ...otherwise treat it as a normal file}
-       SHGetFileInfo(PChar(psFileName), 0, shInfo, SizeOf(shInfo),
-         SHGFI_ICON or SHGFI_SMALLICON or
-         SHGFI_SYSICONINDEX);
-     end;
-     { assign icon }
-     Icon.Handle := shInfo.hIcon;
-     Icon.SaveToFile(psIconName);
-     { List File name, Icon and FileType in ListView}
-  finally
-
-    Icon.Free;
-   end;
- end;
-*)
 end.
 
