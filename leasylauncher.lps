@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units Count="28">
+      <Unit0>
+        <Filename Value="leasylauncher.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <CursorPos X="41" Y="18"/>
+        <UsageCount Value="178"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="566"/>
+        <CursorPos X="22" Y="585"/>
+        <FoldState Value=" T3j20U2 pjNkJ0%5 pkXmf04213]KZlL0=b"/>
+        <UsageCount Value="25"/>
+        <Bookmarks Count="1">
+          <Item0 X="5" Y="677" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="renametab.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmRenameTab"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="4"/>
+        <CursorPos X="16" Y="23"/>
+        <UsageCount Value="86"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\tlib5\tapp.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="6"/>
+        <CursorPos X="91" Y="27"/>
+        <UsageCount Value="37"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\tlib5\tstr.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="16" Y="11"/>
+        <UsageCount Value="37"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\tlib5\tmsg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="24"/>
+        <CursorPos X="42" Y="40"/>
+        <UsageCount Value="37"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\tlib5\tdb.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="26"/>
+        <CursorPos X="3" Y="34"/>
+        <UsageCount Value="37"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\yalauncher\main.pas"/>
+        <ComponentName Value="fmMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4"/>
+        <CursorPos X="19" Y="10"/>
+        <FoldState Value=" T7HCe T3iS0V2 pjNkK0%5 pkOmW043]IFjV08[R4CjT0ae"/>
+        <UsageCount Value="173"/>
+        <Bookmarks Count="1">
+          <Item0 X="9" Y="425" ID="1"/>
+        </Bookmarks>
+      </Unit7>
+      <Unit8>
+        <Filename Value="D:\work\src\tlzlib\tlib.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="403"/>
+        <CursorPos Y="422"/>
+        <UsageCount Value="80"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="D:\langs\lazarus_1.8.4\lcl\include\customform.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2631"/>
+        <CursorPos Y="2642"/>
+        <UsageCount Value="56"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="D:\langs\lazarus_1.8.4\lcl\interfaces\win32\win32callback.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2660"/>
+        <CursorPos Y="2671"/>
+        <UsageCount Value="56"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="D:\langs\lazarus_1.8.4\components\lazutils\fileutil.pas"/>
+        <UnitName Value="FileUtil"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="131"/>
+        <CursorPos X="10" Y="142"/>
+        <UsageCount Value="55"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="D:\langs\lazarus_1.8.4\components\lazutils\fileutil.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="429"/>
+        <CursorPos X="18" Y="441"/>
+        <UsageCount Value="55"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="D:\langs\lazarus_1.8.4\components\lazutils\lazutf8classes.pas"/>
+        <UnitName Value="LazUTF8Classes"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="141"/>
+        <CursorPos Y="151"/>
+        <UsageCount Value="55"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="D:\work\src\tlzlib\tstr.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="139"/>
+        <UsageCount Value="61"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="D:\work\src\tlzlib\tlzdb.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="43" Y="13"/>
+        <UsageCount Value="60"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="D:\langs\lazarus_1.8.4\lcl\include\control.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3416"/>
+        <CursorPos X="5" Y="3427"/>
+        <UsageCount Value="7"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="D:\langs\lazarus_1.8.4\lcl\include\menuitem.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="75"/>
+        <CursorPos Y="85"/>
+        <UsageCount Value="4"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="D:\langs\lazarus_1.8.4\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5354"/>
+        <CursorPos X="46" Y="5379"/>
+        <UsageCount Value="4"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="main.lfm"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="D:\langs\lazarus-2.2.6\components\lazutils\lazfileutils.pas"/>
+        <UnitName Value="LazFileUtils"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="542"/>
+        <CursorPos X="6" Y="571"/>
+        <UsageCount Value="12"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="D:\langs\lazarus-2.2.6\fpc\3.2.2\source\packages\fcl-db\src\base\dsparams.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="719"/>
+        <CursorPos X="18" Y="732"/>
+        <UsageCount Value="11"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="D:\langs\lazarus-2.2.6\fpc\3.2.2\source\packages\fcl-db\src\base\db.pas"/>
+        <UnitName Value="DB"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1619"/>
+        <CursorPos X="14" Y="1619"/>
+        <UsageCount Value="11"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="D:\langs\lazarus-2.2.6\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="941"/>
+        <CursorPos X="14" Y="952"/>
+        <UsageCount Value="11"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="D:\langs\lazarus-2.2.6\fpc\3.2.2\source\packages\fcl-db\src\base\bufdataset.pas"/>
+        <UnitName Value="BufDataset"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3339"/>
+        <CursorPos X="26" Y="3345"/>
+        <UsageCount Value="10"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="D:\langs\lazarus-2.2.6\fpc\3.2.2\source\packages\fcl-db\src\base\dataset.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1532"/>
+        <CursorPos X="29" Y="1553"/>
+        <UsageCount Value="10"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="D:\langs\lazarus-2.2.6\lcl\include\rasterimage.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="411"/>
+        <CursorPos Y="417"/>
+        <UsageCount Value="11"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="D:\langs\lazarus-2.2.6\lcl\graphics.pp"/>
+        <UnitName Value="Graphics"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1279"/>
+        <CursorPos X="15" Y="1289"/>
+        <UsageCount Value="10"/>
+      </Unit27>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="main.pas"/>
+        <Caret Line="65" Column="58" TopLine="53"/>
+      </Position1>
+      <Position2>
+        <Filename Value="main.pas"/>
+        <Caret Line="66" Column="62" TopLine="53"/>
+      </Position2>
+      <Position3>
+        <Filename Value="main.pas"/>
+        <Caret Line="67" Column="69" TopLine="53"/>
+      </Position3>
+      <Position4>
+        <Filename Value="main.pas"/>
+        <Caret Line="68" Column="62" TopLine="53"/>
+      </Position4>
+      <Position5>
+        <Filename Value="main.pas"/>
+        <Caret Line="69" Column="70" TopLine="53"/>
+      </Position5>
+      <Position6>
+        <Filename Value="main.pas"/>
+        <Caret Line="70" Column="47" TopLine="53"/>
+      </Position6>
+      <Position7>
+        <Filename Value="main.pas"/>
+        <Caret Line="71" Column="55" TopLine="53"/>
+      </Position7>
+      <Position8>
+        <Filename Value="main.pas"/>
+        <Caret Line="72" Column="58" TopLine="53"/>
+      </Position8>
+      <Position9>
+        <Filename Value="main.pas"/>
+        <Caret Line="73" Column="55" TopLine="53"/>
+      </Position9>
+      <Position10>
+        <Filename Value="main.pas"/>
+        <Caret Line="74" Column="50" TopLine="53"/>
+      </Position10>
+      <Position11>
+        <Filename Value="main.pas"/>
+        <Caret Line="75" Column="58" TopLine="54"/>
+      </Position11>
+      <Position12>
+        <Filename Value="main.pas"/>
+        <Caret Line="147" Column="48" TopLine="89"/>
+      </Position12>
+      <Position13>
+        <Filename Value="main.pas"/>
+        <Caret Line="75" Column="59" TopLine="64"/>
+      </Position13>
+      <Position14>
+        <Filename Value="main.pas"/>
+        <Caret Line="573" TopLine="539"/>
+      </Position14>
+      <Position15>
+        <Filename Value="main.pas"/>
+        <Caret Line="574" TopLine="539"/>
+      </Position15>
+      <Position16>
+        <Filename Value="main.pas"/>
+        <Caret Line="575" TopLine="539"/>
+      </Position16>
+      <Position17>
+        <Filename Value="main.pas"/>
+        <Caret Line="576" TopLine="539"/>
+      </Position17>
+      <Position18>
+        <Filename Value="main.pas"/>
+        <Caret Line="577" TopLine="539"/>
+      </Position18>
+      <Position19>
+        <Filename Value="main.pas"/>
+        <Caret Line="578" TopLine="539"/>
+      </Position19>
+      <Position20>
+        <Filename Value="main.pas"/>
+        <Caret Line="579" Column="35" TopLine="539"/>
+      </Position20>
+      <Position21>
+        <Filename Value="main.pas"/>
+        <Caret Line="573" Column="28" TopLine="540"/>
+      </Position21>
+      <Position22>
+        <Filename Value="main.pas"/>
+        <Caret Line="578" TopLine="540"/>
+      </Position22>
+      <Position23>
+        <Filename Value="main.pas"/>
+        <Caret Line="568" TopLine="562"/>
+      </Position23>
+      <Position24>
+        <Filename Value="main.pas"/>
+        <Caret Line="587" Column="45" TopLine="567"/>
+      </Position24>
+      <Position25>
+        <Filename Value="main.pas"/>
+        <Caret Line="582" Column="44" TopLine="563"/>
+      </Position25>
+      <Position26>
+        <Filename Value="main.pas"/>
+        <Caret Line="584" Column="37" TopLine="565"/>
+      </Position26>
+      <Position27>
+        <Filename Value="main.pas"/>
+        <Caret Line="583" TopLine="578"/>
+      </Position27>
+      <Position28>
+        <Filename Value="main.pas"/>
+        <Caret Line="584" TopLine="578"/>
+      </Position28>
+      <Position29>
+        <Filename Value="main.pas"/>
+        <Caret Line="583" Column="49" TopLine="578"/>
+      </Position29>
+      <Position30>
+        <Filename Value="main.pas"/>
+        <Caret Line="584" TopLine="578"/>
+      </Position30>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode="default"/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <Watches>
+      <Item>
+        <Expression Value="s"/>
+      </Item>
+      <Item>
+        <Expression Value="i"/>
+      </Item>
+    </Watches>
+  </Debugging>
+</CONFIG>

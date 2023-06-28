@@ -1,0 +1,82 @@
+object fmMain: TfmMain
+  Left = 248
+  Height = 96
+  Top = 155
+  Width = 746
+  AllowDropFiles = True
+  Caption = 'YALauncher'
+  ClientHeight = 96
+  ClientWidth = 746
+  KeyPreview = True
+  OnActivate = FormActivate
+  OnDropFiles = FormDropFiles
+  OnKeyDown = FormKeyDown
+  LCLVersion = '2.2.6.0'
+  object NoteBook: TPageControl
+    Left = 0
+    Height = 73
+    Top = 0
+    Width = 746
+    Align = alClient
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    MultiLine = True
+    ParentFont = False
+    TabOrder = 0
+    Options = [nboMultiLine]
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 23
+    Top = 73
+    Width = 746
+    Panels = <>
+  end
+  object sqlite3: TSQLite3Connection
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    Transaction = trsMain
+    AlwaysUseBigint = False
+    Left = 444
+  end
+  object trsMain: TSQLTransaction
+    Active = False
+    Database = sqlite3
+    Left = 496
+  end
+  object qrMain: TSQLQuery
+    FieldDefs = <>
+    Database = sqlite3
+    Transaction = trsMain
+    Params = <>
+    Macros = <>
+    Left = 552
+  end
+  object pmTabs: TPopupMenu
+    Left = 608
+    object miAddTab: TMenuItem
+      Caption = 'Добавить вкладку'
+      OnClick = miAddTabClick
+    end
+    object miRenameTab: TMenuItem
+      Caption = 'Переименовать вкладку'
+      OnClick = miRenameTabClick
+    end
+    object miRemoveTab: TMenuItem
+      Caption = 'Удалить вкладку'
+      OnClick = miRemoveTabClick
+    end
+  end
+  object pmButtons: TPopupMenu
+    Left = 664
+    object miRemoveButton: TMenuItem
+      Caption = 'Удалить кнопку'
+      OnClick = miRemoveButtonClick
+    end
+  end
+end
