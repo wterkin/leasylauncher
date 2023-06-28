@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
   Buttons, Menus, Windows, ActiveX, ShlObj, sqlite3conn, sqldb, lazpng, comobj
-  , lazfileutils, db, BufDataSet
+  , lazfileutils, db, BufDataSet, shellapi
   , renametab
   , tapp, tdb, tmsg, tstr, tlib
   ;
@@ -39,11 +39,9 @@ type
 
     const
       csDatabaseFileName = 'leasylauncher.db';
-      //csIconFolder       = 'images\';
       ciHeight           = 36;
       ciWidth            = 35;
       ciSpaceLength      = 2;
-      //csPNGExtension     = '.png';
 
     procedure createDatabaseIfNeeded();
     procedure addLink(psFileName : String);
@@ -51,6 +49,7 @@ type
     procedure addOther(psFileName : String);
     function  extractExeFileSpecFromLink(psLinkName : String) : String;
     function  extractIconFromExe(psExeName: String) : TPNGImage;
+    function  GetAssociatedIcon(const psFileName: string): TPNGImage;
     //procedure extractAndSaveIconFromExeFile(psExeName, psIconName : String);
     procedure OnClick(Sender : TObject);
     procedure loadTabs();
@@ -73,7 +72,7 @@ const csSQLSelectAll: String = 'select   TB.id as atabid' + #10 +
 		                   '       and (BT.fstatus>0)' + #10 +
 		                   '  where TB.fstatus>0' + #10 +
 		                   '  order by TB.id, BT.fposition'+#10;
-
+      SHGFI_LARGEICON         = $000000000;
 var
   fmMain: TfmMain;
 
@@ -91,6 +90,45 @@ implementation
  * Удалить вкладку
  * Поменять вкладки местами
 }
+
+{ **** UBPFD *********** by delphibase.endimus.com ****
+>> Получение системной иконки, ассоциированной с файлом в данной системе
+
+Функция позволяет получить такую же иконку любой директории или любого файла,
+какую вы видите в "проводнике". Размеры - 16 * 16 (по умолчанию) или 32 * 32
+(второй параметр - itLarge)
+
+Зависимости: Юниты VCL + ComObj, ActiveX, ShellApi, ShlObj;
+Автор:       Дмитрий Баранов, kda@pisem.net, Москва
+Copyright:   Взято из MSDN
+Дата:        20 мая 2002 г.
+***************************************************** }
+
+type
+  TIconType = (itSmall, itLarge);
+
+function TfmMain.GetAssociatedIcon(const psFileName: string): TPNGImage;
+var loInfoFile : SHFILEINFO;
+    lcFlag : Cardinal;
+    loIcon : TIcon;
+    loPNG : TPNGImage;
+begin
+
+  loPNG := TPngImage.Create();
+  try
+
+    lcFlag:=SHGFI_ICON or SHGFI_LARGEICON;
+    ZeroMemory(Addr(loInfoFile),SizeOf(loInfoFile));
+    SHGetFileInfo(PAnsiChar(psFileName),0,loInfoFile,SizeOf(loInfoFile),lcFlag);
+    loIcon := TIcon.Create;
+    loIcon.Handle := loInfoFile.iIcon;
+    loPNG.Assign(loIcon);
+  finally
+
+     FreeAndNil(loIcon);
+  end;
+  Result := loPNG;
+end;
 
 { TfmMain }
 
@@ -403,10 +441,7 @@ end;
 
 
 procedure TfmMain.addExe(psExeName: String);
-var // lsIconName : String;
-    // lsIconSpec : String;
-    lsSQL      : String;
-    //liMin,
+var lsSQL      : String;
     liMax,
     liCount    : Integer;
     loPNG      : TPNGImage;
@@ -414,8 +449,6 @@ var // lsIconName : String;
 begin
 
    // *** Вытащим из Exe-файла иконку и сохраним в поток
-   //lsIconName := ExtractFileNameWithoutExt(ExtractFileName(psExeName)) + csPNGExtension;
-   //lsIconSpec := getAppFolder() + csIconFolder + lsIconName;
    loPNG := extractIconFromExe(psExeName); //, lsIconSpec
    loStream := TMemoryStream.Create();
    loPNG.SaveToStream(loStream);

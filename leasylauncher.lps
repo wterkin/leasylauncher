@@ -9,7 +9,7 @@
         <Filename Value="leasylauncher.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="41" Y="18"/>
-        <UsageCount Value="179"/>
+        <UsageCount Value="183"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -19,15 +19,16 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="29"/>
-        <CursorPos X="7" Y="45"/>
-        <FoldState Value=" T3jA0U2 pjNkJ0%42113 PkbqI0l"/>
-        <UsageCount Value="26"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="110"/>
+        <CursorPos X="5" Y="119"/>
+        <FoldState Value=" T3k50U2 pjNkJ0%51113 pmdqO0Q1 PiQT0 TJxZ1eT"/>
+        <UsageCount Value="30"/>
         <Bookmarks Count="1">
-          <Item0 X="5" Y="681" ID="1"/>
+          <Item0 X="5" Y="714" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="renametab.pas"/>
@@ -35,10 +36,11 @@
         <ComponentName Value="fmRenameTab"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="4"/>
         <CursorPos X="16" Y="23"/>
-        <UsageCount Value="87"/>
+        <ComponentState Value="1"/>
+        <UsageCount Value="91"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
@@ -48,14 +50,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="6"/>
         <CursorPos X="91" Y="27"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="42"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\tlib5\tstr.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <CursorPos X="16" Y="11"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="42"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -64,15 +66,15 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="24"/>
         <CursorPos X="42" Y="40"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="42"/>
       </Unit5>
       <Unit6>
         <Filename Value="..\tlib5\tdb.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="26"/>
-        <CursorPos X="3" Y="34"/>
-        <UsageCount Value="38"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="15"/>
+        <CursorPos X="12" Y="27"/>
+        <UsageCount Value="42"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
@@ -239,123 +241,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="main.pas"/>
-        <Caret Line="575" TopLine="539"/>
+        <Caret Line="584" TopLine="578"/>
       </Position1>
       <Position2>
         <Filename Value="main.pas"/>
-        <Caret Line="576" TopLine="539"/>
+        <Caret Line="469" Column="45" TopLine="469"/>
       </Position2>
       <Position3>
         <Filename Value="main.pas"/>
-        <Caret Line="577" TopLine="539"/>
+        <Caret Line="58" Column="15" TopLine="47"/>
       </Position3>
       <Position4>
         <Filename Value="main.pas"/>
-        <Caret Line="578" TopLine="539"/>
+        <Caret Line="409" Column="10" TopLine="324"/>
       </Position4>
       <Position5>
         <Filename Value="main.pas"/>
-        <Caret Line="579" Column="35" TopLine="539"/>
+        <Caret Line="443" Column="15" TopLine="423"/>
       </Position5>
       <Position6>
         <Filename Value="main.pas"/>
-        <Caret Line="573" Column="28" TopLine="540"/>
+        <Caret Line="448" Column="15" TopLine="429"/>
       </Position6>
       <Position7>
         <Filename Value="main.pas"/>
-        <Caret Line="578" TopLine="540"/>
+        <Caret Line="51" Column="20" TopLine="41"/>
       </Position7>
       <Position8>
         <Filename Value="main.pas"/>
-        <Caret Line="568" TopLine="562"/>
+        <Caret Line="503" Column="7" TopLine="499"/>
       </Position8>
       <Position9>
         <Filename Value="main.pas"/>
-        <Caret Line="587" Column="45" TopLine="567"/>
+        <Caret Line="53" Column="45" TopLine="42"/>
       </Position9>
       <Position10>
         <Filename Value="main.pas"/>
-        <Caret Line="582" Column="44" TopLine="563"/>
+        <Caret Line="549" Column="31" TopLine="547"/>
       </Position10>
       <Position11>
         <Filename Value="main.pas"/>
-        <Caret Line="584" Column="37" TopLine="565"/>
+        <Caret Line="53" Column="43" TopLine="52"/>
       </Position11>
       <Position12>
         <Filename Value="main.pas"/>
-        <Caret Line="583" TopLine="578"/>
+        <Caret Line="419" Column="8" TopLine="395"/>
       </Position12>
       <Position13>
         <Filename Value="main.pas"/>
-        <Caret Line="584" TopLine="578"/>
+        <Caret Line="417" TopLine="407"/>
       </Position13>
       <Position14>
         <Filename Value="main.pas"/>
-        <Caret Line="583" Column="49" TopLine="578"/>
+        <Caret Line="549" Column="69" TopLine="537"/>
       </Position14>
       <Position15>
         <Filename Value="main.pas"/>
-        <Caret Line="584" TopLine="578"/>
+        <Caret Line="407" Column="8" TopLine="393"/>
       </Position15>
       <Position16>
         <Filename Value="main.pas"/>
-        <Caret Line="469" Column="45" TopLine="469"/>
+        <Caret Line="51" Column="24" TopLine="40"/>
       </Position16>
       <Position17>
         <Filename Value="main.pas"/>
-        <Caret Line="58" Column="15" TopLine="47"/>
+        <Caret Line="49" Column="16" TopLine="28"/>
       </Position17>
       <Position18>
         <Filename Value="main.pas"/>
-        <Caret Line="409" Column="10" TopLine="324"/>
+        <Caret Line="506" Column="14" TopLine="498"/>
       </Position18>
       <Position19>
         <Filename Value="main.pas"/>
-        <Caret Line="443" Column="15" TopLine="423"/>
+        <Caret Line="130" Column="21" TopLine="108"/>
       </Position19>
       <Position20>
         <Filename Value="main.pas"/>
-        <Caret Line="448" Column="15" TopLine="429"/>
+        <Caret Line="502" TopLine="478"/>
       </Position20>
       <Position21>
         <Filename Value="main.pas"/>
-        <Caret Line="51" Column="20" TopLine="41"/>
+        <Caret Line="104" Column="22" TopLine="97"/>
       </Position21>
       <Position22>
         <Filename Value="main.pas"/>
-        <Caret Line="503" Column="7" TopLine="499"/>
+        <Caret Line="14" Column="106"/>
       </Position22>
       <Position23>
         <Filename Value="main.pas"/>
-        <Caret Line="53" Column="45" TopLine="42"/>
+        <Caret Line="10" Column="43"/>
       </Position23>
       <Position24>
         <Filename Value="main.pas"/>
-        <Caret Line="549" Column="31" TopLine="547"/>
+        <Caret Line="116" TopLine="103"/>
       </Position24>
       <Position25>
         <Filename Value="main.pas"/>
-        <Caret Line="53" Column="43" TopLine="52"/>
+        <Caret Line="118" Column="24" TopLine="358"/>
       </Position25>
       <Position26>
         <Filename Value="main.pas"/>
-        <Caret Line="419" Column="8" TopLine="395"/>
+        <Caret Line="51" Column="15" TopLine="40"/>
       </Position26>
       <Position27>
         <Filename Value="main.pas"/>
-        <Caret Line="417" TopLine="407"/>
+        <Caret Line="109" Column="18" TopLine="107"/>
       </Position27>
       <Position28>
         <Filename Value="main.pas"/>
-        <Caret Line="549" Column="69" TopLine="537"/>
+        <Caret Line="123" Column="32" TopLine="110"/>
       </Position28>
       <Position29>
         <Filename Value="main.pas"/>
-        <Caret Line="407" Column="8" TopLine="393"/>
+        <Caret Line="120" Column="31" TopLine="110"/>
       </Position29>
       <Position30>
         <Filename Value="main.pas"/>
-        <Caret Line="51" Column="24" TopLine="40"/>
+        <Caret Line="123" Column="32" TopLine="107"/>
       </Position30>
     </JumpHistory>
     <RunParams>
