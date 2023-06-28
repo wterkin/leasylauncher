@@ -57,9 +57,9 @@ type
     procedure addButton(piLeft : Integer);
     procedure ReadTabParams(var liCount: Integer; var liMax: Integer);
 		procedure addToPanel(const liCount: Integer; const liMax: Integer);
+    function  saveNewCommand(poStream: TStream; piMax: Integer;
+		                         psExeName: String; piExecutable : Integer) : Boolean;
   public
-				procedure saveNewCommand(const loStream: TStream; var liMax: Integer;
-							const psExeName: String);
 
   end;
 
@@ -169,8 +169,8 @@ begin
 	end;
 end;
 
-procedure TfmMain.saveNewCommand(poStream: TStream; piMax: Integer;
-                                 psExeName: String; piExecutable : Integer);
+function TfmMain.saveNewCommand(poStream: TStream; piMax: Integer;
+                                 psExeName: String; piExecutable : Integer) : Boolean;
 const csSQL = 'insert into tblbuttons ('#13+
               '    ftabid, fposition, fname, ffullpath'#13+
               '  , farguments, ficonname, ficon, fstatus, fexecutable'#13+
@@ -179,7 +179,7 @@ const csSQL = 'insert into tblbuttons ('#13+
               '  , :pargument, "1", :picon, 1, pexecutable'#13+
               '  )';
 begin
-
+  Result := False;
   try
 
     initializeQuery(qrMain, csSQL);
@@ -192,10 +192,15 @@ begin
     qrMain.ParamByName('pexecutable').AsInteger := piExecutable;
     qrMain.ExecSQL;
     trsMain.Commit;
-
+    Result := True;
 	except
 
-    trsMain.RollBack();
+    on E : Exception do
+    begin
+
+      trsMain.Rollback;
+      fatalError('Ошибка!',E.Message);
+    end;
 	end;
 end;
 
@@ -540,29 +545,22 @@ var
     loStream   : TStream;
 begin
 
-   // *** Вытащим из Exe-файла иконку и сохраним в поток
-   loPNG := extractIconFromExe(psExeName); //, lsIconSpec
-   loStream := TMemoryStream.Create();
-   loPNG.SaveToStream(loStream);
-   loStream.Seek(0, soFromBeginning);
-   liCount := 0;
-   liMax := 0;
-   // *** Читаем данные вкладки
-   ReadTabParams(liCount, liMax);
-   try
+  // *** Вытащим из Exe-файла иконку и сохраним в поток
+  loPNG := extractIconFromExe(psExeName); //, lsIconSpec
+  loStream := TMemoryStream.Create();
+  loPNG.SaveToStream(loStream);
+  loStream.Seek(0, soFromBeginning);
+  liCount := 0;
+  liMax := 0;
+  // *** Читаем данные вкладки
+  ReadTabParams(liCount, liMax);
+  if saveNewCommand(loStream, liMax, psExeName, ciExecutable) then
+  begin
 
-     saveNewCommand(loStream, liMax, psExeName, ciExecutable);
-		 addToPanel(liCount, liMax);
-   except
-
-     on E : Exception do
-     begin
-
-       trsMain.Rollback;
-       fatalError('Ошибка!',E.Message);
-     end;
-   end;
+	   addToPanel(liCount, liMax);
+  end;
 end;
+
 
 
 procedure TfmMain.addOther(psFileName: String);
@@ -579,7 +577,11 @@ begin
   liMax := 0;
   // *** Читаем данные вкладки
   ReadTabParams(liCount, liMax);
+  if saveNewCommand(loStream, liMax, psExeName, ciNonExecutable) then
+  begin
 
+	   addToPanel(liCount, liMax);
+  end;
 end;
 
 
