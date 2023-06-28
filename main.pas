@@ -56,8 +56,10 @@ type
     procedure buttonHandler(Sender: TObject);
     procedure addButton(piLeft : Integer);
     procedure ReadTabParams(var liCount: Integer; var liMax: Integer);
-
+		procedure addToPanel(const liCount: Integer; const liMax: Integer);
   public
+				procedure saveNewCommand(const loStream: TStream; var liMax: Integer;
+							const psExeName: String);
 
   end;
 
@@ -75,6 +77,8 @@ const csSQLSelectAll: String = 'select   TB.id as atabid' + #10 +
 		                   '  where TB.fstatus>0' + #10 +
 		                   '  order by TB.id, BT.fposition'+#10;
       SHGFI_LARGEICON         = $000000000;
+      ciNonExecutable = 0;
+      ciExecutable = 1;
 var
   fmMain: TfmMain;
 
@@ -140,6 +144,58 @@ begin
     end;
 	finally
     qrMain.Close;
+	end;
+end;
+
+procedure TfmMain.addToPanel(const liCount: Integer; const liMax: Integer);
+const csSQL = 'select   "id" as abuttonid'#13+
+              '       , "fname" as abuttonname'#13+
+              '       , "ffullpath" as abuttonapppath'#13+
+              '       , "ficon" as abuttonicon'#13+
+              '  from "tblbuttons"'#13+
+              '  where     ("ftabid"=:ptabid)'#13+
+              '        and ("fposition"=:pposition)';
+begin
+
+  try
+    initializeQuery(qrMain, csSQL);
+    qrMain.ParamByName('ptabid').AsInteger := NoteBook.ActivePage.Tag;
+    qrMain.ParamByName('pposition').AsInteger := liMax + 1;
+    qrMain.Open;
+    qrMain.First;
+    addButton((liCount) * (ciWidth + 1));
+	finally
+    qrMain.Close;
+	end;
+end;
+
+procedure TfmMain.saveNewCommand(poStream: TStream; piMax: Integer;
+                                 psExeName: String; piExecutable : Integer);
+const csSQL = 'insert into tblbuttons ('#13+
+              '    ftabid, fposition, fname, ffullpath'#13+
+              '  , farguments, ficonname, ficon, fstatus, fexecutable'#13+
+              '  ) values ('#13+
+              '    :ptabid, :pposition, :pname, :pfullpath'#13+
+              '  , :pargument, "1", :picon, 1, pexecutable'#13+
+              '  )';
+begin
+
+  try
+
+    initializeQuery(qrMain, csSQL);
+    qrMain.ParamByName('ptabid').AsInteger := NoteBook.ActivePage.Tag;
+    qrMain.ParamByName('pposition').AsInteger := piMax+1;
+    qrMain.ParamByName('pname').AsString := ExtractFileNameWithoutExt(ExtractFileName(psExeName));
+    qrMain.ParamByName('pfullpath').AsString := psExeName;
+    qrMain.ParamByName('pargument').AsString := '';
+    qrMain.ParamByName('picon').LoadFromStream(poStream, ftBlob);
+    qrMain.ParamByName('pexecutable').AsInteger := piExecutable;
+    qrMain.ExecSQL;
+    trsMain.Commit;
+
+	except
+
+    trsMain.RollBack();
 	end;
 end;
 
@@ -477,7 +533,7 @@ end;
 
 
 procedure TfmMain.addExe(psExeName: String);
-var lsSQL      : String;
+var
     liMax,
     liCount    : Integer;
     loPNG      : TPNGImage;
@@ -494,40 +550,9 @@ begin
    // *** Читаем данные вкладки
    ReadTabParams(liCount, liMax);
    try
-   // *** Добавим новую иконку.
-     lsSQL:=
-       'insert into tblbuttons (' + LF +
-       '    ftabid, fposition, fname, ffullpath' + LF +
-       '  , farguments, ficonname, ficon, fstatus' + LF +
-       '  ) values (' + LF +
-       '    :ptabid, :pposition, :pname, :pfullpath' + LF +
-       '  , :pargument, "1", :picon, 1' + LF +
-       '  )';
-     initializeQuery(qrMain,lsSQL);
-     qrMain.ParamByName('ptabid').AsInteger := NoteBook.ActivePage.Tag;
-     qrMain.ParamByName('pposition').AsInteger := liMax+1;
-     qrMain.ParamByName('pname').AsString := ExtractFileNameWithoutExt(ExtractFileName(psExeName));
-     qrMain.ParamByName('pfullpath').AsString := psExeName;
-     qrMain.ParamByName('pargument').AsString := '';
-     qrMain.ParamByName('picon').LoadFromStream(loStream, ftBlob);
-     qrMain.ExecSQL;
-     trsMain.Commit;
 
-     lsSQL:=
-       'select   "id" as abuttonid'#13+
-       '       , "fname" as abuttonname'#13+
-       '       , "ffullpath" as abuttonapppath'#13+
-       '       , "ficon" as abuttonicon'#13+
-       '  from "tblbuttons"'#13+
-       '  where     ("ftabid"=:ptabid)'#13+
-       '        and ("fposition"=:pposition)';
-     initializeQuery(qrMain,lsSQL);
-     qrMain.ParamByName('ptabid').AsInteger := NoteBook.ActivePage.Tag;
-     qrMain.ParamByName('pposition').AsInteger := liMax + 1;
-     qrMain.Open;
-     qrMain.First;
-     addButton((liCount) * (ciWidth + 1));
-     qrMain.Close;
+     saveNewCommand(loStream, liMax, psExeName, ciExecutable);
+		 addToPanel(liCount, liMax);
    except
 
      on E : Exception do
@@ -543,6 +568,8 @@ end;
 procedure TfmMain.addOther(psFileName: String);
 var loStream : TMemoryStream;
     loPNG : TPNGImage;
+    liMax,
+    liCount    : Integer;
 begin
   loPNG := GetAssociatedIcon(psFileName);
   loStream := TMemoryStream.Create();
