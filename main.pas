@@ -50,7 +50,6 @@ type
     function  extractExeFileSpecFromLink(psLinkName : String) : String;
     function  extractIconFromExe(psExeName: String) : TPNGImage;
     function  GetAssociatedIcon(const psFileName: string): TPNGImage;
-    //procedure extractAndSaveIconFromExeFile(psExeName, psIconName : String);
     procedure OnClick(Sender : TObject);
     procedure loadTabs();
     procedure buttonHandler(Sender: TObject);
@@ -59,6 +58,7 @@ type
 		procedure addToPanel(const liCount: Integer; const liMax: Integer);
     function  saveNewCommand(poStream: TStream; piMax: Integer;
 		                         psExeName: String; piExecutable : Integer) : Boolean;
+    function  launch(psCommand, psArgs, psFolder : String) : Boolean;
   public
 
   end;
@@ -70,6 +70,7 @@ const csSQLSelectAll: String = 'select   TB.id as atabid' + #10 +
 		                   '       , BT.ffullpath as abuttonapppath' + #10 +
 		                   '       , BT.ficon as abuttonicon' + #10 +
 		                   '       , BT.fposition as abuttonposition' + #10 +
+                       '       , BT.fexecutable as abuttonexec' + #10 +
 		                   '  from tbltabs TB' + #10 +
 		                   '  left join tblbuttons BT' + #10 +
 		                   '    on     (BT.ftabid=TB.id)' + #10 +
@@ -95,23 +96,10 @@ implementation
  * Переименовать вкладку
  * Удалить вкладку
  * Поменять вкладки местами
+ * Глобальный хоткей на показать/спрятать окно
+ * При добавлении ярлыка на неисполняемый объект иконка не находится
+ * при удалении кнопки смещать все кнопки, находящиеся справа от удаляемой, влево.
 }
-
-{ **** UBPFD *********** by delphibase.endimus.com ****
->> Получение системной иконки, ассоциированной с файлом в данной системе
-
-Функция позволяет получить такую же иконку любой директории или любого файла,
-какую вы видите в "проводнике". Размеры - 16 * 16 (по умолчанию) или 32 * 32
-(второй параметр - itLarge)
-
-Зависимости: Юниты VCL + ComObj, ActiveX, ShellApi, ShlObj;
-Автор:       Дмитрий Баранов, kda@pisem.net, Москва
-Copyright:   Взято из MSDN
-Дата:        20 мая 2002 г.
-***************************************************** }
-
-//type
-//  TIconType = (itSmall, itLarge);
 
 { TfmMain }
 procedure TfmMain.ReadTabParams(var liCount: Integer; var liMax: Integer);
@@ -147,6 +135,7 @@ begin
 	end;
 end;
 
+
 procedure TfmMain.addToPanel(const liCount: Integer; const liMax: Integer);
 const csSQL = 'select   "id" as abuttonid'#13+
               '       , "fname" as abuttonname'#13+
@@ -169,6 +158,7 @@ begin
 	end;
 end;
 
+
 function TfmMain.saveNewCommand(poStream: TStream; piMax: Integer;
                                  psExeName: String; piExecutable : Integer) : Boolean;
 const csSQL = 'insert into tblbuttons ('#13+
@@ -176,7 +166,7 @@ const csSQL = 'insert into tblbuttons ('#13+
               '  , farguments, ficonname, ficon, fstatus, fexecutable'#13+
               '  ) values ('#13+
               '    :ptabid, :pposition, :pname, :pfullpath'#13+
-              '  , :pargument, "1", :picon, 1, pexecutable'#13+
+              '  , :pargument, "1", :picon, 1, :pexecutable'#13+
               '  )';
 begin
   Result := False;
@@ -626,7 +616,6 @@ end;
 
 
 procedure TfmMain.OnClick(Sender: TObject);
-//const csSQL = 'select ffullpath from tblbuttons where id = :pid';
 var loButton : TSpeedButton;
     lsPath: String;
 begin
@@ -643,7 +632,15 @@ begin
     begin
 
 		  lsPath:=qrMain.FieldByName('abuttonapppath').AsString;
-		  EasyExec(lsPath, '', False);
+      if qrMain.FieldByName('abuttonexec').AsInteger = 1 then
+      begin
+
+        EasyExec(lsPath, '', False);
+      end else
+      begin
+
+        launch(lsPath, '', ExtractFileDir(lsPath));
+      end;
 		end;
 	end;
 end;
@@ -816,13 +813,12 @@ begin
 end;
 
 
-function easyExec(psCommand, psArgs, psFolder : String) : Boolean;
-var liStatus : Integer;
-    lpcArgs,
+function TfmMain.Launch(psCommand, psArgs, psFolder : String) : Boolean;
+var lpcArgs,
     lpcFolder : PChar;
 begin
-  lpcFolder:=Nil
-  lpcArgs:=Nil
+  lpcFolder:=Nil;
+  lpcArgs:=Nil;
 
   if not IsEmpty(psFolder) then
   begin
@@ -835,12 +831,15 @@ begin
 
     lpcArgs:=PChar(psArgs);
 	end;
-  EasyExec:= ShellExecute(HInstance,
-                          PChar('open'),
-                          PChar(psCommand),
-                          lpcArgs,
-                          lpcFolder,
-                          SW_SHOWDEFAULT)<=32;
+  Result := ShellExecute(HInstance,
+                         PChar('open'),
+                         PChar(psCommand),
+                         lpcArgs,
+                         lpcFolder,
+                         SW_SHOWDEFAULT)<=32;
 end;
+
+
 end.
+
 
