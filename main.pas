@@ -42,7 +42,7 @@ type
       ciHeight           = 36;
       ciWidth            = 35;
       ciSpaceLength      = 2;
-
+      cblDatabaseWasJustCreated : Boolean = False;
     procedure createDatabaseIfNeeded();
     procedure addLink(psFileName : String);
     procedure addExe(psExeName : String);
@@ -59,6 +59,7 @@ type
     function  saveNewCommand(poStream: TStream; piMax: Integer;
 		                         psExeName: String; piExecutable : Integer) : Boolean;
     function  launch(psCommand, psArgs, psFolder : String) : Boolean;
+    function  saveExeFileToDB(psExeName : String; piMax : Integer) : Boolean;
   public
 
   end;
@@ -532,20 +533,23 @@ procedure TfmMain.addExe(psExeName: String);
 var
     liMax,
     liCount    : Integer;
-    loPNG      : TPNGImage;
-    loStream   : TStream;
+    //loPNG      : TPNGImage;
+    //loStream   : TStream;
 begin
 
+
   // *** Вытащим из Exe-файла иконку и сохраним в поток
-  loPNG := extractIconFromExe(psExeName); //, lsIconSpec
-  loStream := TMemoryStream.Create();
-  loPNG.SaveToStream(loStream);
-  loStream.Seek(0, soFromBeginning);
+  //loPNG := extractIconFromExe(psExeName); //, lsIconSpec
+  //loStream := TMemoryStream.Create();
+  //loPNG.SaveToStream(loStream);
+  //loStream.Seek(0, soFromBeginning);
   liCount := 0;
   liMax := 0;
   // *** Читаем данные вкладки
   ReadTabParams(liCount, liMax);
-  if saveNewCommand(loStream, liMax, psExeName, ciExecutable) then
+  if saveExeFileToDB(psExeName, liMax) then
+
+  //if saveNewCommand(loStream, liMax, psExeName, ciExecutable) then
   begin
 
 	   addToPanel(liCount, liMax);
@@ -679,6 +683,14 @@ begin
         NoteBook.ActivePage := loTab;
         liLeft := 1;
       end;
+      // *** Если база была только что создана, добавим иконку Блокнота.
+      if cblDatabaseWasJustCreated then
+      begin
+
+        saveExeFileToDB('C:/Windows/System32/notepad.exe', 1);
+        qrMain.Close();
+        qrMain.Open();
+  		end;
       // *** Если есть хоть одна кнопка на этом листе..
       if not qrMain.FieldByName('abuttonname').isNull then
       begin
@@ -691,7 +703,7 @@ begin
       qrMain.Next;
     end;
     qrMain.Close();
-  except
+	except
 
     on E : Exception do
     begin
@@ -765,7 +777,8 @@ const csSQLCreateTabsTable =
         '    "farguments" nchar(255) not null on conflict abort,'#13+
         '    "ficonname" nchar(255) not null on conflict abort,'#13+
         '    "ficon" blob,'#13+
-        '    "fstatus" integer not null on conflict abort default(1)'#13+
+        '    "fstatus" integer not null on conflict abort default(1),'#13+
+        '    "fexecutable" integer not null on conflict abort default(0)'#13+
         ');';
 
       csSQLAddDefaultTab =
@@ -800,8 +813,9 @@ begin
       sqlite3.ExecuteDirect(csSQLCreateTabsTable);
       sqlite3.ExecuteDirect(csSQLCreateButtonsTable);
       sqlite3.ExecuteDirect(csSQLAddDefaultTab);
-      sqlite3.ExecuteDirect(csSQLAddDefaultApp);
+      //sqlite3.ExecuteDirect(csSQLAddDefaultApp);
       trsMain.Commit;
+      cblDatabaseWasJustCreated := True;
     end;
   except
 
@@ -814,7 +828,7 @@ begin
 end;
 
 
-function TfmMain.Launch(psCommand, psArgs, psFolder : String) : Boolean;
+function TfmMain.launch(psCommand, psArgs, psFolder : String) : Boolean;
 var lpcArgs,
     lpcFolder : PChar;
 begin
@@ -838,6 +852,20 @@ begin
                          lpcArgs,
                          lpcFolder,
                          SW_SHOWDEFAULT)<=32;
+end;
+
+
+function TfmMain.saveExeFileToDB(psExeName : String; piMax : Integer) : Boolean;
+var loPNG      : TPNGImage;
+    loStream   : TStream;
+begin
+
+  // *** Вытащим из Exe-файла иконку и сохраним в поток
+  loPNG := extractIconFromExe(psExeName); //, lsIconSpec
+  loStream := TMemoryStream.Create();
+  loPNG.SaveToStream(loStream);
+  loStream.Seek(0, soFromBeginning);
+  Result := saveNewCommand(loStream, piMax, psExeName, ciExecutable);
 end;
 
 
