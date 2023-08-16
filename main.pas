@@ -175,8 +175,16 @@ begin
   try
 
     initializeQuery(qrMain, csSQL);
-    qrMain.ParamByName('ptabid').AsInteger := NoteBook.ActivePage.Tag;
-    qrMain.ParamByName('pposition').AsInteger := piMax+1;
+    if NoteBook.ActivePage <> Nil then
+    begin
+
+      qrMain.ParamByName('ptabid').AsInteger := NoteBook.ActivePage.Tag;
+    end else
+    begin
+
+      qrMain.ParamByName('ptabid').AsInteger := 1;
+		end;
+		qrMain.ParamByName('pposition').AsInteger := piMax+1;
     qrMain.ParamByName('pname').AsString := ExtractFileNameWithoutExt(ExtractFileName(psExeName));
     qrMain.ParamByName('pfullpath').AsString := psExeName;
     qrMain.ParamByName('pargument').AsString := '';
@@ -514,7 +522,9 @@ procedure TfmMain.FormActivate(Sender: TObject);
 begin
 
   OnActivate := Nil;
+  // *** Если базы данных нет - создаём её
   createDatabaseIfNeeded();
+  // *** Загружаем страницы и приложения из БД
   loadTabs();
 end;
 
@@ -683,14 +693,6 @@ begin
         NoteBook.ActivePage := loTab;
         liLeft := 1;
       end;
-      // *** Если база была только что создана, добавим иконку Блокнота.
-      if cblDatabaseWasJustCreated then
-      begin
-
-        saveExeFileToDB('C:/Windows/System32/notepad.exe', 1);
-        qrMain.Close();
-        qrMain.Open();
-  		end;
       // *** Если есть хоть одна кнопка на этом листе..
       if not qrMain.FieldByName('abuttonname').isNull then
       begin
@@ -802,20 +804,24 @@ begin
 
   try
 
+    // *** Открываем соединение с БД
     sqlite3.DatabaseName := getAppFolder()+csDatabaseFileName;
     lblDatabaseExists := FileExists(sqlite3.DatabaseName);
     sqlite3.Open;
     sqlite3.Connected := True;
+    // *** Если БД не создана...
     if not lblDatabaseExists then
     begin
 
+      // *** Создаем БД
       trsMain.StartTransaction;
       sqlite3.ExecuteDirect(csSQLCreateTabsTable);
       sqlite3.ExecuteDirect(csSQLCreateButtonsTable);
+      // *** Создаем первую вкладку
       sqlite3.ExecuteDirect(csSQLAddDefaultTab);
-      //sqlite3.ExecuteDirect(csSQLAddDefaultApp);
       trsMain.Commit;
-      cblDatabaseWasJustCreated := True;
+      // *** Добавляем первое приложение
+      saveExeFileToDB('C:/Windows/System32/notepad.exe', 0);
     end;
   except
 
