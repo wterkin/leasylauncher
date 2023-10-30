@@ -604,6 +604,7 @@ begin
   StringToWideChar(psLinkName, lwcWidePath, SizeOf(lwcWidePath));
   loPersFile.Load(lwcWidePath, STGM_READ);
   loShellLink.GetPath(lcBuff, MAX_PATH, loFileInfo{%H-}, SLGP_UNCPRIORITY);
+  loShellLink.GetArguments(lcBuff, MAX_PATH);
   Result := lcBuff;
 end;
 
@@ -738,7 +739,7 @@ begin
   loBtn.Top := 1;
   loBtn.Width := ciWidth;
   loBtn.Height := ciHeight;
-  loBtn.OnClick := @ButtonHandler;
+  //loBtn.OnClick := @ButtonHandler;
   loBtn.ShowCaption := False;
   loBtn.ShowHint := False;
   loBtn.PopupMenu := pmButtons;
